@@ -1,0 +1,41 @@
+<div class="flex items-center justify-center h-full gap-4 flex-col">
+    <p class="text-2xl font-semibold">Create your account</p>
+    <form #loginForm="ngForm" class="w-full max-w-sm bg-gray-200  p-8 rounded" (ngSubmit)="register()"
+        autocomplete="off">
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                Username
+            </label>
+            <input name="username" [(ngModel)]="this.registerDto.username"
+                class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="username"
+                type="text" placeholder="Username">
+        </div>
+        <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                Password
+            </label>
+            <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight"
+                id="password" type="password" name="password" [(ngModel)]="this.registerDto.password"
+                placeholder="******************">
+
+        </div>
+        <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                Favorite user
+            </label>
+            <select class="border rounded w-full py-2 px-3">
+                <option *ngFor="let user of this.users" [value]="user.userName">
+                    {{user.userName}}
+                </option>
+            </select>
+        </div>
+
+        <div class="flex items-center justify-between">
+            <button
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="submit">
+                Register
+            </button>
+        </div>
+    </form>
+</div>

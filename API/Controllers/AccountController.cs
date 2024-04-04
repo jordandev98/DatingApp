@@ -15,7 +15,7 @@ public class AccountController : BaseApiController
     private readonly DataContext context;
     private readonly ITokenService tokenService;
 
-    public AccountController(DataContext dataContext , ITokenService tokenService)
+    public AccountController(DataContext dataContext, ITokenService tokenService)
     {
         this.context = dataContext;
         this.tokenService = tokenService;
@@ -25,7 +25,8 @@ public class AccountController : BaseApiController
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
 
-        if (await UserExists(registerDto.UserName)){
+        if (await UserExists(registerDto.UserName))
+        {
             return BadRequest("Username taken!");
         }
 
@@ -42,13 +43,14 @@ public class AccountController : BaseApiController
 
         await context.SaveChangesAsync();
 
-        return new UserDto {
+        return new UserDto
+        {
             Username = user.UserName,
             Token = this.tokenService.CreateToken(user)
         };
     }
 
-[HttpPost("login")]
+    [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
 
@@ -63,18 +65,21 @@ public class AccountController : BaseApiController
 
         var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
 
-        for (int i = 0 ;  i < computedHash.Length ; i++) {
+        for (int i = 0; i < computedHash.Length; i++)
+        {
             if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password");
         }
-        
-        return new UserDto {
+
+        return new UserDto
+        {
             Username = user.UserName,
             Token = this.tokenService.CreateToken(user)
-        };;
+        }; ;
     }
 
 
-    private async Task<bool> UserExists(string username) {
+    private async Task<bool> UserExists(string username)
+    {
         return await context.Users.AnyAsync(user => user.UserName == username);
     }
 

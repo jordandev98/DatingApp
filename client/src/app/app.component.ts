@@ -1,34 +1,42 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import {MatListModule} from '@angular/material/list';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatListModule } from '@angular/material/list';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { User } from './_models/user';
+import { AccountService } from './_services/account.service';
+import { HomeComponent } from './home/home.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet , CommonModule , MatListModule],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule, MatListModule, NavbarComponent, FormsModule, HomeComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
-  
-})
-export class AppComponent implements OnInit{
-  title : string = 'client';
-  users : any;
 
-  constructor(private http : HttpClient) {}
+})
+export class AppComponent implements OnInit {
+  title: string = 'client';
+
+
+  constructor(private accountService: AccountService) { }
   ngOnInit(): void {
-    
-    this.http.get("https://localhost:5001/api/users").subscribe({
-      next : (res) => {
-        this.users = res;
-      },
-      error : (error) => {
-       console.error(error) 
-      },
-      complete : () => {
-        console.log(this.users)
-      }
-    });
+
+
+    this.setCurrentUser();
   }
+
+
+
+
+  setCurrentUser() {
+    const userString = localStorage.getItem("user")
+    if (!userString) {
+      return;
+    }
+
+    const user: User = JSON.parse(userString)!;
+    this.accountService.setCurrentUser(user);
+  }
+
 }

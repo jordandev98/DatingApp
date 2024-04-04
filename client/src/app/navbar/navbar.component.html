@@ -1,0 +1,86 @@
+<nav class="flex items-center justify-between py-4 px-8 bg-indigo-300 border-b border-gray[50]">
+    <div>
+        <a href="/" class="text-2xl font-bold">Dating app</a>
+    </div>
+    <div class="md:flex gap-12 hidden">
+        <a href="">Link</a>
+        <a href="">Link</a>
+        <a href="">Link</a>
+    </div>
+    <div class="md:flex gap-4 hidden" *ngIf="!(accountService.currentUser$ | async)">
+        <a href="/login">
+            <app-primary-button [label]="'Login'"></app-primary-button>
+        </a>
+        <button
+            class="border border-gray-50 hover:border-gray-300 hover:text-gray-300 text-white py-2 px-4 rounded">Register</button>
+    </div>
+
+    <div class="hidden md:flex flex-col gap-4 " *ngIf="accountService.currentUser$ | async as user">
+        <button mat-icon-button [matMenuTriggerFor]="menu" 
+        class="flex items-center justify-center">
+            Welcome {{this.user.username}} 
+            
+            <mat-icon aria-hidden="false" fontIcon="arrow_drop_down"></mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>person</mat-icon>
+              <span>My account</span>
+            </button>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>logout</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+    </div>
+
+    <div class="md:hidden flex">
+        <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="menu"
+            (click)="this.showFiller = !this.showFiller"></mat-icon>
+    </div>
+
+
+
+</nav>
+
+<div *ngIf="showFiller" class="absolute top-0 left-0 w-80 h-screen bg-indigo-300 border border-gray-200 transition-opacity duration-300">
+    <div class="flex flex-col justify-between items-center py-8 gap-8 h-full">
+    
+        <div class="flex flex-col justify-center items-center gap-4">
+            <p class="text-2xl font-bold">Dating app</p>
+            <a href="">Link</a>
+            <a href="">Link</a>
+            <a href="">Link</a>
+        </div>
+
+        <div class="flex flex-col gap-4 w-full px-8" *ngIf="!(accountService.currentUser$| async)">
+            <a href="/login">
+              <app-primary-button [label]="'Login'"></app-primary-button>
+            </a>
+            
+            <button
+                class="border border-gray-50 hover:border-gray-300 hover:text-gray-300 text-white py-2 px-4 rounded">Register</button>
+        </div>
+
+
+        <div class="flex flex-col gap-4 w-full px-8" *ngIf="accountService.currentUser$ | async as user">
+            <button mat-icon-button [matMenuTriggerFor]="menu" 
+            class="flex items-center justify-center">
+                Welcome {{this.user.username}} 
+                
+                <mat-icon aria-hidden="false" fontIcon="arrow_drop_down"></mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                  <mat-icon>person</mat-icon>
+                  <span>My account</span>
+                </button>
+                <button mat-menu-item (click)="logout()">
+                  <mat-icon>logout</mat-icon>
+                  <span>Logout</span>
+                </button>
+              </mat-menu>
+        </div>
+    </div>
+</div>
+
