@@ -3,9 +3,15 @@
         <a href="/" class="text-2xl font-bold">Dating app</a>
     </div>
     <div class="md:flex gap-12 hidden">
-        <a href="">Link</a>
-        <a href="">Link</a>
-        <a href="">Link</a>
+
+
+      <ng-container *ngIf="(accountService.currentUser$ | async)">
+        <a href="/members">Matches</a>
+        <a href="/lists">Lists</a>
+        <a href="/messages">Messages</a>
+      </ng-container>
+      
+      
     </div>
     <div class="md:flex gap-4 hidden" *ngIf="!(accountService.currentUser$ | async)">
         <a href="/login">
@@ -48,9 +54,9 @@
     
         <div class="flex flex-col justify-center items-center gap-4">
             <p class="text-2xl font-bold">Dating app</p>
-            <a href="">Link</a>
-            <a href="">Link</a>
-            <a href="">Link</a>
+            <a href="/members">Matches</a>
+            <a href="/lists">Lists</a>
+            <a href="/messages">Messages</a>
         </div>
 
         <div class="flex flex-col gap-4 w-full px-8" *ngIf="!(accountService.currentUser$| async)">

@@ -5,6 +5,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
 import { PrimaryButtonComponent } from '../components/primary-button/primary-button.component';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-navbar',
@@ -20,7 +22,7 @@ export class NavbarComponent {
 
   user: User | null = null;
 
-  constructor(protected accountService: AccountService) { }
+  constructor(protected accountService: AccountService , private router: Router) { }
 
   ngOnInit(): void {
 
@@ -29,5 +31,6 @@ export class NavbarComponent {
 
   logout() {
     this.accountService.logout();
+    this.router.navigateByUrl("/")
   }
 }
